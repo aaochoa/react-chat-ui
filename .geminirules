@@ -1,0 +1,85 @@
+# Ruby Chat UI - Coding Rules
+
+You are an expert AI coding assistant for the **Ruby Chat UI** project. This project is a React 19 + TypeScript application built with Vite, providing a chat interface for the Ruby Chat API.
+
+## Core Technology Stack
+
+- **Framework**: React 19 with React Router 7
+- **Language**: TypeScript (Strict Mode)
+- **Build Tool**: Vite 8
+- **Styling**: Tailwind CSS (Utility-first)
+- **State Management**: Zustand 5
+- **HTTP Client**: Axios
+- **Testing**: Vitest + React Testing Library
+
+## 1. Code Style Standards
+
+Strictly follow the **Airbnb TypeScript Style Guide**.
+
+- **Indentation**: 4 spaces (no tabs).
+- **Quotes**: Double quotes (`"`) always.
+- **Semicolons**: Required at the end of statements.
+- **Trailing Commas**: Always required for multi-line structures (arrays, objects, params).
+- **Spacing**: 2 blank lines between top-level definitions, 1 blank line between methods.
+- **Variable Declaration**: Prefer `const`, then `let`. Never use `var`.
+- **Arrow Functions**: Always use parentheses around parameters: `(arg) => { ... }`.
+
+## 2. TypeScript Guidelines
+
+- **No `any` types**: Always provide explicit types. Use `unknown` with type narrowing if flexibility is needed.
+- **Strict Mode**: Compliance with `"strict": true` is mandatory.
+- **Props Interfaces**: Define a `Props` interface for every component.
+- **Return Types**: Always annotate function and method return types.
+- **Named Exports**: Use named exports for components, hooks, and utilities. Use `default export` only for page-level components in `src/pages/`.
+
+## 3. Project Structure & Naming
+
+Follow the modular structure in `src/`:
+
+- `components/`: Domain-based folders (e.g., `Common/`, `Layout/`, `Conversation/`).
+- `hooks/`: Custom React hooks (prefixed with `use`). Export from `index.ts`.
+- `pages/`: Route-level components. Use `Page` suffix (e.g., `LoginPage.tsx`).
+- `services/api/`: Centralized API calls using the Axios client in `client.ts`.
+- `state/`: Zustand stores (e.g., `authStore.ts`).
+- `types/`: Type definitions (e.g., `models.ts`, `api.ts`).
+- `utils/`: Pure helper functions.
+- `spec/`: Test files mirroring the `src/` structure (e.g., `spec/components/Common/Button.test.tsx`).
+
+### Naming Conventions
+- **Components/Pages**: `PascalCase`
+- **Hooks/Services/Utils**: `camelCase`
+- **Tests**: `[file].test.tsx` or `.test.ts`
+
+## 4. React Patterns
+
+- **Functional Components**: Use functional components with hooks only. No class components.
+- **Hook Extraction**: Extract reusable logic into custom hooks.
+- **Memoization**: Use `React.memo`, `useMemo`, and `useCallback` appropriately to optimize performance, but do not over-memoize.
+- **Semantic HTML**: Use semantic tags and include ARIA labels for accessibility.
+- **Conditional Rendering**: Use early returns for complex conditions; use ternaries for simple inline rendering.
+
+## 5. State Management & API
+
+- **Zustand**: Use domain-separated stores. Access state using selectors to prevent unnecessary re-renders. Use `persist` middleware for state that needs to survive reloads (e.g., preferences).
+- **Axios**: Use the shared client in `src/services/api/client.ts`. Define request and response types for every API function.
+- **Error Handling**: Catch and transform API errors into meaningful app errors. Always handle loading and error states in UI components.
+
+## 6. Testing Requirements
+
+- **Coverage**: All logic, components, and hooks must have corresponding tests in the `spec/` folder.
+- **Tools**: Use Vitest for assertions and React Testing Library for component testing.
+- **Mocking**: Mock API calls in tests using `vi.mock()`. Do not make real network requests.
+
+## 7. Essential Development Workflow
+
+Before submitting any code, ensure it passes all checks:
+
+```bash
+# Combined check command
+npm run lint && npm run format:check && npm run type-check && npm run test
+```
+
+- **Linting**: `npm run lint`
+- **Formatting**: `npm run format`
+- **Type Check**: `npm run type-check`
+- **Tests**: `npm run test` or `npm run test:watch`

@@ -1,0 +1,9 @@
+node_modules
+dist
+public
+package-lock.json
+.prettierrc
+# Ignore build artifacts
+*.log
+# Ignore env files
+.env*
