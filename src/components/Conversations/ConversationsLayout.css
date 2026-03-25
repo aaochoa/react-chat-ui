@@ -1,0 +1,39 @@
+.conversations-layout {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    height: calc(100svh - 80px); /* Adjusting for app-header height */
+    overflow: hidden;
+    background: var(--bg);
+}
+
+.conversations-sidebar {
+    border-inline-end: 1px solid var(--border);
+    background: var(--bg);
+    overflow-y: auto;
+}
+
+.conversations-content {
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    position: relative;
+}
+
+@media (max-width: 768px) {
+    .conversations-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .conversations-sidebar {
+        display: none; /* In a real app we'd toggle this */
+    }
+
+    .conversations-layout.sidebar-active .conversations-sidebar {
+        display: block;
+    }
+
+    .conversations-layout.sidebar-active .conversations-content {
+        display: none;
+    }
+}
