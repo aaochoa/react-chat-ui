@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import type { Conversation } from '../services/conversations';
 import { conversationsService } from '../services/conversations';
+import { useAuth } from './AuthContext';
 
 interface ConversationsContextType {
     conversations: Conversation[];
@@ -14,28 +15,35 @@ interface ConversationsContextType {
 const ConversationsContext = createContext<ConversationsContextType | undefined>(undefined);
 
 export const ConversationsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    const { isAuthenticated } = useAuth();
     const [conversations, setConversations] = useState<Conversation[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [selectedId, setSelectedId] = useState<number | null>(null);
 
     const refreshConversations = useCallback(async () => {
+        if (!isAuthenticated) return;
         setIsLoading(true);
         setError(null);
         try {
             const data = await conversationsService.getConversations();
-            setConversations(data);
+            setConversations(data || []);
         } catch (err: any) {
-            setError(err.message || 'Failed to load conversations');
+            setError(err.error || err.message || 'Failed to load conversations');
             console.error('Error loading conversations:', err);
         } finally {
             setIsLoading(false);
         }
-    }, []);
+    }, [isAuthenticated]);
 
     useEffect(() => {
-        refreshConversations();
-    }, [refreshConversations]);
+        if (isAuthenticated) {
+            refreshConversations();
+        } else {
+            setConversations([]);
+            setIsLoading(false);
+        }
+    }, [isAuthenticated, refreshConversations]);
 
     const value: ConversationsContextType = {
         conversations,

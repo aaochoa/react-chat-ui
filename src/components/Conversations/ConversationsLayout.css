@@ -1,23 +1,25 @@
 .conversations-layout {
     display: grid;
-    grid-template-columns: 350px 1fr;
+    grid-template-columns: 380px 1fr;
     height: calc(100svh - 80px); /* Adjusting for app-header height */
     overflow: hidden;
-    background: var(--bg);
+    background: transparent;
 }
 
 .conversations-sidebar {
-    border-inline-end: 1px solid var(--border);
-    background: var(--bg);
+    background: transparent;
     overflow-y: auto;
+    border-right: 1px solid var(--border);
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .conversations-content {
-    background: var(--bg);
+    background: transparent;
     display: flex;
     flex-direction: column;
     overflow-y: auto;
     position: relative;
+    z-index: 10;
 }
 
 @media (max-width: 768px) {
@@ -25,15 +27,11 @@
         grid-template-columns: 1fr;
     }
 
-    .conversations-sidebar {
-        display: none; /* In a real app we'd toggle this */
+    .sidebar-inactive .conversations-sidebar {
+        display: none;
     }
 
-    .conversations-layout.sidebar-active .conversations-sidebar {
-        display: block;
-    }
-
-    .conversations-layout.sidebar-active .conversations-content {
+    .sidebar-active .conversations-content {
         display: none;
     }
 }

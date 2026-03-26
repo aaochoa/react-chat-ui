@@ -26,10 +26,6 @@ export const ConversationsSidebar: React.FC = () => {
         );
     }
 
-    if (error) {
-        return <div className="sidebar-error">{error}</div>;
-    }
-
     return (
         <div className="conversations-sidebar-content">
             <header className="sidebar-header">
@@ -40,6 +36,17 @@ export const ConversationsSidebar: React.FC = () => {
                     </svg>
                 </button>
             </header>
+
+            {error && (
+                <div className="sidebar-error-toast">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="12" y1="8" x2="12" y2="12" />
+                        <line x1="12" y1="16" x2="12.01" y2="16" />
+                    </svg>
+                    <span>{error}</span>
+                </div>
+            )}
             <div className="sidebar-search">
                 <div className="search-input-wrapper">
                     <svg className="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -53,11 +60,12 @@ export const ConversationsSidebar: React.FC = () => {
                 {conversations.length === 0 ? (
                     <div className="empty-sidebar">No conversations yet</div>
                 ) : (
-                    conversations.map(conversation => (
+                    conversations.map((conversation, index) => (
                         <div
                             key={conversation.id}
                             className={`conversation-item ${id === String(conversation.id) ? 'active' : ''}`}
                             onClick={() => navigate(`/conversations/${conversation.id}`)}
+                            style={{ '--index': index } as React.CSSProperties}
                         >
                             <div className="conversation-avatar">
                                 {conversation.name.charAt(0).toUpperCase()}
