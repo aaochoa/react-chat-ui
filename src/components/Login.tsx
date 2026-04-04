@@ -1,30 +1,29 @@
-import React, { useState } from 'react';
-import { useAuth } from '../contexts/AuthContext';
-import './Login.css';
+import React, { useState } from "react";
+import { useAppDispatch } from "../store";
+import { login } from "../store/authSlice";
+import "./Login.css";
 
 interface LoginProps {
     onSwitchView: () => void;
 }
 
 export const Login: React.FC<LoginProps> = ({ onSwitchView }) => {
-    const { login } = useAuth();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
+    const dispatch = useAppDispatch();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setError('');
+        setError("");
         setIsSubmitting(true);
-        try {
-            await login({ email, password });
-        } catch (err: unknown) {
-            const errorObj = err as { error?: string };
-            setError(errorObj.error || 'Invalid credentials. Please try again.');
-        } finally {
-            setIsSubmitting(false);
+        const result = await dispatch(login({ email, password }));
+        if (login.rejected.match(result)) {
+            const payload = result.payload as { error?: string } | undefined;
+            setError(payload?.error ?? "Invalid credentials. Please try again.");
         }
+        setIsSubmitting(false);
     };
 
     return (

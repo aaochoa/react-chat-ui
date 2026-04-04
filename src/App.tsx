@@ -1,13 +1,22 @@
-import { useState } from 'react';
-import { Outlet, NavLink, Link } from 'react-router-dom';
-import './App.css';
-import { useAuth } from './contexts/AuthContext';
-import { Login } from './components/Login';
-import { Register } from './components/Register';
+import { useState, useEffect } from "react";
+import { Outlet, NavLink, Link } from "react-router-dom";
+import "./App.css";
+import { Login } from "./components/Login";
+import { Register } from "./components/Register";
+import { useAppDispatch, useAppSelector } from "./store";
+import { checkAuthStatus, logout } from "./store/authSlice";
 
 function App() {
-    const { isAuthenticated, isLoading, user, logout } = useAuth();
-    const [currentView, setCurrentView] = useState<'login' | 'register'>('login');
+    const dispatch = useAppDispatch();
+    const user = useAppSelector((state) => state.auth.user);
+    const isLoading = useAppSelector((state) => state.auth.isLoading);
+    const isAuthenticated = user !== null;
+
+    const [currentView, setCurrentView] = useState<"login" | "register">("login");
+
+    useEffect(() => {
+        dispatch(checkAuthStatus());
+    }, [dispatch]);
 
     if (isLoading) {
         return (
@@ -19,10 +28,10 @@ function App() {
     }
 
     if (!isAuthenticated) {
-        return currentView === 'login' ? (
-            <Login onSwitchView={() => setCurrentView('register')} />
+        return currentView === "login" ? (
+            <Login onSwitchView={() => setCurrentView("register")} />
         ) : (
-            <Register onSwitchView={() => setCurrentView('login')} />
+            <Register onSwitchView={() => setCurrentView("login")} />
         );
     }
 
@@ -35,11 +44,14 @@ function App() {
                         <span className="logo-text">ChatApp</span>
                     </Link>
                     <nav className="main-nav">
-                        <NavLink to="/" end className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>
+                        <NavLink to="/" end className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>
                             Home
                         </NavLink>
-                        <NavLink to="/conversations" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>
+                        <NavLink to="/conversations" className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>
                             Conversations
+                        </NavLink>
+                        <NavLink to="/friends" className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>
+                            Friends
                         </NavLink>
                     </nav>
                 </div>
@@ -53,7 +65,7 @@ function App() {
                             <span className="status">Active</span>
                         </div>
                     </div>
-                    <button className="logout-btn" onClick={logout}>
+                    <button className="logout-btn" onClick={() => dispatch(logout())}>
                         <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" />
                         </svg>

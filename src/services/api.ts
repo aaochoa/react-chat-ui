@@ -1,10 +1,18 @@
-const API_BASE_URL = 'http://localhost:3000/api/v1';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:3000/api/v1";
 
 export const getAuthToken = () => localStorage.getItem('chat_token');
 
 export const setAuthToken = (token: string) => localStorage.setItem('chat_token', token);
 
 export const clearAuthToken = () => localStorage.removeItem('chat_token');
+
+// Registered by the Redux store so the API client can trigger a logout
+// without creating a circular dependency.
+let onUnauthorized: (() => void) | null = null;
+
+export const setUnauthorizedHandler = (handler: () => void): void => {
+    onUnauthorized = handler;
+};
 
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
     const token = getAuthToken();
@@ -22,7 +30,7 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
 
     if (response.status === 401) {
         clearAuthToken();
-        // In a real app, we might want to redirect to login or show a toast
+        onUnauthorized?.();
     }
 
     if (!response.ok) {

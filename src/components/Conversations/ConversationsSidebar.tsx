@@ -1,10 +1,21 @@
-import React from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useConversations } from '../../contexts/ConversationsContext';
-import './ConversationsSidebar.css';
+import React, { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../store";
+import { fetchConversations } from "../../store/conversationsSlice";
+import "./ConversationsSidebar.css";
 
 export const ConversationsSidebar: React.FC = () => {
-    const { conversations, isLoading, error } = useConversations();
+    const dispatch = useAppDispatch();
+    const isAuthenticated = useAppSelector((state) => state.auth.user !== null);
+    const conversations = useAppSelector((state) => state.conversations.conversations);
+    const isLoading = useAppSelector((state) => state.conversations.isLoading);
+    const error = useAppSelector((state) => state.conversations.error);
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            dispatch(fetchConversations());
+        }
+    }, [isAuthenticated, dispatch]);
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
 

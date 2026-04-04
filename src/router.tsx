@@ -5,6 +5,7 @@ import { ConversationsLayout } from './components/Conversations/ConversationsLay
 import { ConversationsSidebar } from './components/Conversations/ConversationsSidebar';
 import { EmptyConversationState } from './components/Conversations/EmptyConversationState';
 import { ChatView } from './components/Conversations/ChatView';
+import FriendsPage from './pages/FriendsPage';
 
 export const router = createBrowserRouter([
     {
@@ -28,6 +29,10 @@ export const router = createBrowserRouter([
                         element: <ChatView />,
                     },
                 ],
+            },
+            {
+                path: 'friends',
+                element: <FriendsPage />,
             },
         ],
     },

@@ -1,42 +1,36 @@
-import React, { useState } from 'react';
-import { useAuth } from '../contexts/AuthContext';
-import './Register.css';
+import React, { useState } from "react";
+import { useAppDispatch } from "../store";
+import { register } from "../store/authSlice";
+import "./Register.css";
 
 interface RegisterProps {
     onSwitchView: () => void;
 }
 
 export const Register: React.FC<RegisterProps> = ({ onSwitchView }) => {
-    const { register } = useAuth();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [passwordConfirmation, setPasswordConfirmation] = useState('');
-    const [error, setError] = useState('');
+    const dispatch = useAppDispatch();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [passwordConfirmation, setPasswordConfirmation] = useState("");
+    const [error, setError] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setError('');
+        setError("");
 
         if (password !== passwordConfirmation) {
-            setError('Passwords do not match');
+            setError("Passwords do not match");
             return;
         }
 
         setIsSubmitting(true);
-        try {
-            await register({ 
-                email, 
-                password, 
-                password_confirmation: passwordConfirmation 
-            });
-        } catch (err: unknown) {
-            const errorObj = err as { errors?: string[]; error?: string };
-            const errorMessage = errorObj.errors ? errorObj.errors.join(', ') : (errorObj.error || 'Registration failed. Please try again.');
-            setError(errorMessage);
-        } finally {
-            setIsSubmitting(false);
+        const result = await dispatch(register({ email, password, password_confirmation: passwordConfirmation }));
+        if (register.rejected.match(result)) {
+            const payload = result.payload as { errors?: string[]; error?: string } | undefined;
+            setError(payload?.errors?.join(", ") ?? payload?.error ?? "Registration failed. Please try again.");
         }
+        setIsSubmitting(false);
     };
 
     return (
