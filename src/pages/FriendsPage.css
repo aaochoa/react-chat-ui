@@ -1,0 +1,308 @@
+.friends-page {
+    max-width: 680px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.friends-page-header {
+    margin-bottom: 1.5rem;
+}
+
+.friends-page-header h1 {
+    font-size: 1.75rem;
+    margin: 0 0 0.25rem;
+    color: var(--text-primary);
+}
+
+.friends-page-header p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* Tabs */
+.friends-tabs {
+    display: flex;
+    gap: 0.25rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1.5rem;
+}
+
+.friends-tab-btn {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 0.6rem 1rem;
+    margin-bottom: -1px;
+    color: var(--text-secondary);
+    font: inherit;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+}
+
+.friends-tab-btn:hover {
+    color: var(--text-primary);
+}
+
+.friends-tab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+}
+
+/* Search form */
+.friend-search-form {
+    margin-bottom: 1.25rem;
+}
+
+.friend-search-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: var(--glass);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.5rem 0.75rem;
+    transition: border-color 0.15s;
+}
+
+.friend-search-input-wrapper:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.friend-search-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--text-secondary);
+    flex-shrink: 0;
+}
+
+.friend-search-input {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font: inherit;
+    font-size: 0.95rem;
+}
+
+.friend-search-input::placeholder {
+    color: var(--text-secondary);
+}
+
+.friend-search-btn {
+    background: var(--accent);
+    color: #000;
+    border: none;
+    border-radius: 6px;
+    padding: 0.35rem 0.85rem;
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    white-space: nowrap;
+}
+
+.friend-search-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* Result and list items */
+.friend-result-list,
+.friends-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.friend-result-item,
+.friend-list-item,
+.pending-request-item {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    padding: 0.75rem 1rem;
+    background: var(--glass);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    transition: border-color 0.15s;
+}
+
+.friend-result-item:hover,
+.friend-list-item:hover,
+.pending-request-item:hover {
+    border-color: rgba(255, 255, 255, 0.18);
+}
+
+.friend-result-avatar,
+.friend-list-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--secondary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #000;
+    flex-shrink: 0;
+}
+
+.friend-result-info,
+.friend-list-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.friend-result-name,
+.friend-list-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.friend-result-email,
+.friend-list-email {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.friend-result-error {
+    font-size: 0.78rem;
+    color: #f87171;
+}
+
+/* Buttons */
+.friend-add-btn {
+    background: var(--accent);
+    color: #000;
+    border: none;
+    border-radius: 6px;
+    padding: 0.35rem 0.85rem;
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: opacity 0.15s;
+}
+
+.friend-add-btn.pending,
+.friend-add-btn:disabled {
+    background: var(--border);
+    color: var(--text-secondary);
+    cursor: not-allowed;
+}
+
+.friend-accept-btn {
+    background: var(--accent);
+    color: #000;
+    border: none;
+    border-radius: 6px;
+    padding: 0.3rem 0.7rem;
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s;
+}
+
+.friend-accept-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.friend-reject-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-secondary);
+    padding: 0.3rem 0.7rem;
+    font: inherit;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+}
+
+.friend-reject-btn:hover {
+    border-color: #f87171;
+    color: #f87171;
+}
+
+.friend-reject-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.pending-request-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+
+/* Pending section title */
+.pending-section-title {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-secondary);
+    margin: 0 0 0.75rem;
+    font-family: var(--mono);
+}
+
+.pending-requests-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Empty / error states */
+.friends-empty-state {
+    text-align: center;
+    padding: 2.5rem 1rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.friends-error {
+    color: #f87171;
+}
+
+/* Spinner */
+.spinner-sm {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(0, 0, 0, 0.3);
+    border-top-color: #000;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Search error banner */
+.friend-search-error {
+    color: #f87171;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+}

@@ -1,13 +1,12 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
-import { useConversations } from '../../contexts/ConversationsContext';
-import './ChatView.css';
+import React from "react";
+import { useParams } from "react-router-dom";
+import { useAppSelector } from "../../store";
+import "./ChatView.css";
 
 export const ChatView: React.FC = () => {
     const { id } = useParams<{ id: string }>();
-    const { conversations } = useConversations();
-    
-    const conversation = conversations.find(c => String(c.id) === id);
+    const conversations = useAppSelector((state) => state.conversations.conversations);
+    const conversation = conversations.find((c) => String(c.id) === id);
 
     if (!conversation) {
         return (
