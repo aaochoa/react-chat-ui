@@ -27,4 +27,7 @@ export const conversationsService = {
     getConversation: async (id: number | string): Promise<Conversation> => {
         return api.get<Conversation>(`/conversations/${id}`);
     },
+    createConversation: async (recipientId: number): Promise<Conversation> => {
+        return api.post<Conversation>('/conversations', { recipient_id: recipientId });
+    },
 };

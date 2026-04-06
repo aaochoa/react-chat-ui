@@ -4,11 +4,11 @@
 TBD - created by archiving change add-friend-search. Update Purpose after archive.
 ## Requirements
 ### Requirement: User can view their friends list
-The system SHALL display a list of accepted friends by calling `GET /api/v1/friendships`. Each friend SHALL show their name and email.
+The system SHALL display a list of accepted friends by calling `GET /api/v1/friendships`. Each friend SHALL show their name, email, and actions to interact with them (e.g. "Message").
 
 #### Scenario: Friends list loads
 - **WHEN** user navigates to the Friends page
-- **THEN** the system fetches and renders the accepted friends list
+- **THEN** the system fetches and renders the accepted friends list along with a "Message" action for each friend
 
 #### Scenario: No friends yet
 - **WHEN** the friends list is empty

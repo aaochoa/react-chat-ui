@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../store";
 import {
     searchUsers,
@@ -6,6 +7,7 @@ import {
     sendFriendRequest,
     cancelFriendRequest,
 } from "../store/friendsSlice";
+import { createConversation } from "../store/conversationsSlice";
 import { FriendSearchInput } from "../components/Friends/FriendSearchInput";
 import { FriendSearchList } from "../components/Friends/FriendSearchList";
 import { FriendsList } from "../components/Friends/FriendsList";
@@ -17,8 +19,11 @@ type Tab = "search" | "friends" | "requests";
 
 const FriendsPage: React.FC = () => {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState<Tab>("search");
     const [hasSearched, setHasSearched] = useState(false);
+    const [messagingFriendId, setMessagingFriendId] = useState<number | null>(null);
+    const [toastError, setToastError] = useState<string | null>(null);
 
     const searchResults = useAppSelector((state) => state.friends.searchResults);
     const isSearching = useAppSelector((state) => state.friends.isSearching);
@@ -61,6 +66,25 @@ const FriendsPage: React.FC = () => {
     const handleCancelRequest = async (friendshipId: number): Promise<void> => {
         await dispatch(cancelFriendRequest(friendshipId));
     };
+
+    useEffect(() => {
+        if (toastError) {
+            const timer = setTimeout(() => setToastError(null), 4000);
+            return () => clearTimeout(timer);
+        }
+    }, [toastError]);
+
+    const handleMessage = useCallback(async (friendId: number): Promise<void> => {
+        setMessagingFriendId(friendId);
+        setToastError(null);
+        const result = await dispatch(createConversation(friendId));
+        setMessagingFriendId(null);
+        if (createConversation.fulfilled.match(result)) {
+            navigate(`/conversations/${result.payload.id}`);
+        } else {
+            setToastError(result.payload as string);
+        }
+    }, [dispatch, navigate]);
 
     // Convert sentRequestIds record keys to a Map for FriendSearchList
     const sentRequestMap = useMemo(
@@ -108,6 +132,8 @@ const FriendsPage: React.FC = () => {
                         friends={friends}
                         isLoading={isLoadingFriends}
                         error={friendsError}
+                        onMessage={handleMessage}
+                        messagingFriendId={messagingFriendId}
                     />
                 )}
 
@@ -118,6 +144,12 @@ const FriendsPage: React.FC = () => {
                     />
                 )}
             </div>
+
+            {toastError && (
+                <div className="friends-toast" role="alert">
+                    {toastError}
+                </div>
+            )}
         </div>
     );
 };

@@ -21,7 +21,7 @@ export const ChatView: React.FC = () => {
             <header className="chat-header">
                 <div className="chat-header-info">
                     <div className="avatar">
-                        {conversation.name.charAt(0).toUpperCase()}
+                        {(conversation.name || 'C').charAt(0).toUpperCase()}
                     </div>
                     <div className="details">
                         <span className="name">{conversation.name}</span>

@@ -79,7 +79,7 @@ export const ConversationsSidebar: React.FC = () => {
                             style={{ '--index': index } as React.CSSProperties}
                         >
                             <div className="conversation-avatar">
-                                {conversation.name.charAt(0).toUpperCase()}
+                                {(conversation.name || 'C').charAt(0).toUpperCase()}
                             </div>
                             <div className="conversation-info">
                                 <div className="conversation-top">

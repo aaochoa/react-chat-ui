@@ -6,9 +6,11 @@ interface Props {
     friends: FriendUser[];
     isLoading: boolean;
     error: string | null;
+    onMessage: (friendId: number) => void;
+    messagingFriendId: number | null;
 }
 
-export const FriendsList: React.FC<Props> = ({ friends, isLoading, error }) => {
+export const FriendsList: React.FC<Props> = ({ friends, isLoading, error, onMessage, messagingFriendId }) => {
     if (isLoading) {
         return (
             <div className="friends-loading">
@@ -47,7 +49,11 @@ export const FriendsList: React.FC<Props> = ({ friends, isLoading, error }) => {
         <ul className="friends-list" role="list">
             {friends.map((friend) => (
                 <li key={friend.id}>
-                    <FriendListItem friend={friend} />
+                    <FriendListItem
+                        friend={friend}
+                        onMessage={onMessage}
+                        isMessaging={messagingFriendId === friend.id}
+                    />
                 </li>
             ))}
         </ul>
