@@ -15,6 +15,20 @@ const initialState: ConversationsState = {
     selectedId: null,
 };
 
+export const createConversation = createAsyncThunk<Conversation, number>(
+    "conversations/create",
+    async (recipientId, { rejectWithValue }) => {
+        try {
+            return await conversationsService.createConversation(recipientId);
+        } catch (err: unknown) {
+            const message = err && typeof err === "object" && "error" in err
+                ? String((err as { error: unknown }).error)
+                : "Failed to create conversation";
+            return rejectWithValue(message);
+        }
+    },
+);
+
 export const fetchConversations = createAsyncThunk<Conversation[]>(
     "conversations/fetch",
     async (_, { rejectWithValue }) => {

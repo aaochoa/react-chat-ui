@@ -3,6 +3,8 @@ import type { FriendUser } from "../../types/models";
 
 interface Props {
     friend: FriendUser;
+    onMessage: (friendId: number) => void;
+    isMessaging?: boolean;
 }
 
 function displayName(user: FriendUser): string {
@@ -10,7 +12,7 @@ function displayName(user: FriendUser): string {
     return full || user.email;
 }
 
-export const FriendListItem: React.FC<Props> = ({ friend }) => (
+export const FriendListItem: React.FC<Props> = ({ friend, onMessage, isMessaging = false }) => (
     <div className="friend-list-item">
         <div className="friend-list-avatar" aria-hidden="true">
             {friend.email.charAt(0).toUpperCase()}
@@ -19,5 +21,13 @@ export const FriendListItem: React.FC<Props> = ({ friend }) => (
             <span className="friend-list-name">{displayName(friend)}</span>
             <span className="friend-list-email">{friend.email}</span>
         </div>
+        <button
+            className="friend-message-btn"
+            onClick={() => onMessage(friend.id)}
+            disabled={isMessaging}
+            aria-label={`Message ${displayName(friend)}`}
+        >
+            {isMessaging ? <span className="spinner-sm" /> : "Message"}
+        </button>
     </div>
 );

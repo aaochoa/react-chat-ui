@@ -273,6 +273,58 @@
     gap: 1.5rem;
 }
 
+/* Message button */
+.friend-message-btn {
+    background: var(--accent);
+    color: #000;
+    border: none;
+    border-radius: 6px;
+    padding: 0.35rem 0.85rem;
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: opacity 0.15s;
+    flex-shrink: 0;
+}
+
+.friend-message-btn:hover {
+    opacity: 0.85;
+}
+
+.friend-message-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* Toast notification */
+.friends-toast {
+    position: fixed;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.75rem 1.25rem;
+    background: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 10px;
+    color: #f87171;
+    font-size: 0.85rem;
+    z-index: 1000;
+    animation: toastIn 0.3s ease-out;
+}
+
+@keyframes toastIn {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(0.5rem);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
 /* Empty / error states */
 .friends-empty-state {
     text-align: center;
